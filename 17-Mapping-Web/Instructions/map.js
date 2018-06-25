@@ -8,6 +8,10 @@ function createMarkers(response){
 	console.log(events[0])
 	//initialize an array to hold quake markers
 	var quakemarkers = [];
+	// Define a markerSize function that will give each earthquake a different radius based on its magnitude
+	function markerSize(mag) {
+	return mag * 40000;
+  	}
 
 	//loop through events response to pull event coordinates, place and magnitude
 	for (var i=0; i < events.length; i++){
@@ -18,7 +22,13 @@ function createMarkers(response){
 	console.log(place)
 	console.log(mag)
 		// create a marker for each quake and bind popup with quakes information
-		var quakemarker = L.marker(coord).bindPopup("<h3>" + place + "<h3><h3> Magnitude: " + mag +"<h3>");
+		var quakemarker = L.circle(coord,{
+		stroke:false,
+		fillOpacity: 0.75,
+		color:"red",
+		fillColor:"red",
+		radius: markerSize(mag)
+		}).bindPopup("<h3>" + place + "<h3><h3> Magnitude: " + mag +"<h3>");
 
 		quakemarkers.push(quakemarker);
 	}
