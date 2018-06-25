@@ -18,17 +18,15 @@ function createMarkers(response){
 	console.log(place)
 	console.log(mag)
 		// create a marker for each quake and bind popup with quakes information
-		var quakemarker = L.marker([coord]).bindPopup("<h3>" + place + "<h3><h3> Magnitude: " + place +"<h3>");
+		var quakemarker = L.marker(coord).bindPopup("<h3>" + place + "<h3><h3> Magnitude: " + mag +"<h3>");
 
 		quakemarkers.push(quakemarker);
 	}
+
+	var quakelayers = L.layerGroup(quakemarkers);
 	
-		createMap(L.layerGroup(quakemarkers));
-}
-	
-		function createMap(quakeevents){
 		// Adding tile layer
-		var quakelayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+		var earth = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
 		accessToken: 'pk.eyJ1IjoiZWJsYW5rIiwiYSI6ImNqaWR2eWF1NjA2N2oza212bzFzbjV0ZnMifQ.7Ksa3rUTdYPCWrQETdj2nw',
 		id: 'mapbox.comic',
 		maxZoom: 18,
@@ -36,17 +34,19 @@ function createMarkers(response){
 	});
 		
 		// create a baseMaps object to hold the lightmap layer
-		var basemaps = {"Quake Map": quakelayer};
+		var basemaps = {"Light Map": earth};
 	
-		  // create an overlayMaps object to hold the bikeStations layer
-		  var overlayMaps = {"Quake Events": quakeevents};
+		  // create an overlayMaps object to hold the quake layer
+		var overlayMaps = {"Quake Events": quakelayers};
 	
-		  var map = L.map("map", {
-			center: [50.0, -0.0],
-			zoom: 2
+		var map = L.map("map", {
+		center: [50.0, -0.0],
+		zoom: 2,
+		layers: [earth, quakelayers]
 		  });
-	};
-	
+		  L.control.layers(basemaps, overlayMaps).addTo(map);
+		
+		}
 	
 	
 	
