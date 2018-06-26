@@ -15,7 +15,7 @@ function createMarkers(response){
 
 	//loop through events response to pull event coordinates, place and magnitude
 	for (var i=0; i < events.length; i++){
-		var coord = [events[i].geometry.coordinates[0],events[i].geometry.coordinates[1]];
+		var coord = [events[i].geometry.coordinates[1],events[i].geometry.coordinates[0]];
 		var place = events[i].properties.place;
 		var mag = events[i].properties.mag;
 	console.log(coord)
